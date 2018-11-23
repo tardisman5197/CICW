@@ -22,7 +22,7 @@ func (p *PricingProblem) PricingProblem(n int, seed int64) {
 	p.impact = [][]float64{}
 
 	for i := 0; i < n; i++ {
-		fmt.Printf("Setting up good %v, with type: ", i)
+		// fmt.Printf("Setting up good %v, with type: ", i)
 
 		currentType := rand.Float64()
 
@@ -35,7 +35,7 @@ func (p *PricingProblem) PricingProblem(n int, seed int64) {
 			currentPriceResponse[1] = p.getRandomSatiatingPrice()
 			p.priceResponse = append(p.priceResponse, currentPriceResponse)
 
-			fmt.Printf(" L (%v / %v)\n", currentPriceResponse[0], currentPriceResponse[1])
+			// fmt.Printf(" L (%v / %v)\n", currentPriceResponse[0], currentPriceResponse[1])
 
 		} else if currentType > 0.4 && currentType < 0.9 {
 			// Constant elasticity
@@ -46,7 +46,7 @@ func (p *PricingProblem) PricingProblem(n int, seed int64) {
 			currentPriceResponse[1] = p.getRandomElasticity()
 			p.priceResponse = append(p.priceResponse, currentPriceResponse)
 
-			fmt.Printf(" CE (%v / %v)\n", currentPriceResponse[0], currentPriceResponse[1])
+			// fmt.Printf(" CE (%v / %v)\n", currentPriceResponse[0], currentPriceResponse[1])
 
 		} else {
 			// Fixed demand
@@ -56,7 +56,7 @@ func (p *PricingProblem) PricingProblem(n int, seed int64) {
 			currentPriceResponse[0] = p.getRandomTotalDemand()
 			p.priceResponse = append(p.priceResponse, currentPriceResponse)
 
-			fmt.Printf(" FD (%v / %v)\n", currentPriceResponse[0], currentPriceResponse[1])
+			// fmt.Printf(" FD (%v / %v)\n", currentPriceResponse[0], currentPriceResponse[1])
 		}
 
 		impactRow := []float64{}

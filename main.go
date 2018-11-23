@@ -5,7 +5,11 @@ import (
 	"math/rand"
 )
 
+const executeTime = 30
+
 func main() {
+	prices, revenue := PSO(5, 10)
+	fmt.Printf("Prices: %v\nRevenue %v\n\n", prices, revenue)
 	fitnessTester()
 }
 
@@ -44,5 +48,13 @@ func fitnessTester() {
 		}
 	}
 
-	fmt.Printf("Final best revenue: %v", bestRevenue)
+	fmt.Printf("Prices: %v\nFinal best revenue: %v", prices, bestRevenue)
+}
+
+// randomPrices generates a list of random prices
+func randomPrices(noOfGoods int) (prices []float64) {
+	for i := 0; i < noOfGoods; i++ {
+		prices = append(prices, rand.Float64()*10)
+	}
+	return
 }
