@@ -61,7 +61,7 @@ func (p *PricingProblem) PricingProblem(n int, seed int64) {
 
 		impactRow := []float64{}
 		for j := 0; j < n; j++ {
-			impactRow = append(impactRow, rand.Float64())
+			impactRow = append(impactRow, rand.Float64()*0.1)
 		}
 		impactRow[i] = 0.0
 

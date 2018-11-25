@@ -5,18 +5,23 @@ import (
 	"math/rand"
 )
 
-const executeTime = 30
+const executeTime = 20
+const numberOfGoods = 2
+const seed = 0
 
 func main() {
-	prices, revenue := PSO(5, 10)
-	fmt.Printf("Prices: %v\nRevenue %v\n\n", prices, revenue)
+	// Run given random search
 	fitnessTester()
+	fmt.Printf("\n\n")
+
+	// Run PSO algorithm
+	prices, revenue := PSO(numberOfGoods, seed)
+	fmt.Printf("Prices: %v\nRevenue %v\n\n", prices, revenue)
 }
 
 // fitnessTester runs a random search on the pricing problem
 func fitnessTester() {
-	numberOfGoods := 20
-
+	rand.Seed(seed)
 	var f PricingProblem
 
 	f.PricingProblem(numberOfGoods, 0)

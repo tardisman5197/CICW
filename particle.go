@@ -54,15 +54,13 @@ func (p *Particle) update(gBest []float64) {
 // evaluate calaculates the fitness of the particles current position and updates
 // the personal best of the particle.
 func (p *Particle) evalulate(pP PricingProblem) bool {
-	if pP.isValid(p.currentPostion) {
-		currentRevenue := pP.evaluate(p.currentPostion)
+	currentRevenue := pP.evaluate(p.currentPostion)
 
-		if currentRevenue < p.pBestRevenue {
-			p.pBest = make([]float64, len(p.currentPostion))
-			copy(p.pBest, p.currentPostion)
-			p.pBestRevenue = currentRevenue
-			return true
-		}
+	if currentRevenue > p.pBestRevenue {
+		p.pBest = make([]float64, len(p.currentPostion))
+		copy(p.pBest, p.currentPostion)
+		p.pBestRevenue = currentRevenue
+		return true
 	}
 	return false
 }

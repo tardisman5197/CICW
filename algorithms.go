@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"math/rand"
 	"time"
 )
 
@@ -11,7 +10,6 @@ import (
 // towards the best soloution in the population.
 func PSO(noOfGoods int, seed int64) (prices []float64, revenue float64) {
 	fmt.Printf("Starting PSO\n")
-	rand.Seed(seed)
 
 	// Init antennaArray
 	var p PricingProblem
@@ -20,7 +18,7 @@ func PSO(noOfGoods int, seed int64) (prices []float64, revenue float64) {
 	var population []Particle
 
 	// INITIALISE population, with random designs
-	for i := 0; i < 30; i++ {
+	for i := 0; i < 100; i++ {
 		currentParticle := Particle{}
 		// Find a random design
 		currentParticle.currentPostion = randomPrices(noOfGoods)
@@ -59,14 +57,17 @@ func PSO(noOfGoods int, seed int64) (prices []float64, revenue float64) {
 		// 2. EVALUATE new position
 		// 3. UPDATE personal best
 		for j := 0; j < len(population); j++ {
-			population[j].update(gBest)
+			currentParticle := population[j]
+			currentParticle.update(gBest)
 
 			// evaluate also updates the personal best
-			population[j].evalulate(p)
+			currentParticle.evalulate(p)
 
-			if j == 0 {
-				fmt.Printf("\r%v: %v", i, population[j].currentPostion)
-			}
+			// if j == 0 && i%500 == 0 {
+			// 	fmt.Printf("\r%v: %v : %v", i, currentParticle.pBest, currentParticle.pBestRevenue)
+			// }
+
+			population[j] = currentParticle
 		}
 
 		// Termination condition
