@@ -6,7 +6,7 @@ import (
 )
 
 const executeTime = 20
-const numberOfGoods = 2
+const numberOfGoods = 20
 const seed = 0
 
 func main() {
