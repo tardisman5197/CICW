@@ -8,15 +8,50 @@ import (
 	"time"
 )
 
+// fitnessTester runs a random search on the pricing problem
+func fitnessTester(f PricingProblem, seed int64) {
+	rand.Seed(seed)
+
+	prices := make([]float64, numberOfGoods)
+	newPrices := make([]float64, numberOfGoods)
+
+	for i := 0; i < numberOfGoods; i++ {
+		prices[i] = rand.Float64() * 10
+	}
+
+	bestRevenue := f.evaluate(prices)
+	newRevenue := 0.0
+
+	for i := 0; i < 100; i++ {
+		// fmt.Printf("Best revenue so far: %v\n", bestRevenue)
+
+		// Generate more!
+		for j := 0; j < numberOfGoods; j++ {
+			newPrices[j] = rand.Float64() * 10
+		}
+
+		newRevenue = f.evaluate(newPrices)
+		if newRevenue > bestRevenue {
+			for j := 0; j < len(prices); j++ {
+				prices[j] = newPrices[j]
+			}
+			bestRevenue = newRevenue
+		}
+	}
+
+	fmt.Printf("Prices: %v\nFinal best revenue: %v", prices, bestRevenue)
+}
+
 // PSO (Particle Swarm Optimisation) finds the best design
 // by creating a population of valid solutions, then flocking
 // towards the best soloution in the population.
-func PSO(noOfGoods int, seed int64) (prices []float64, revenue float64) {
+func PSO(noOfGoods int, p PricingProblem, seed int64) (prices []float64, revenue float64) {
+	rand.Seed(seed)
+
 	fmt.Printf("Starting PSO\n")
 
-	// Init antennaArray
-	var p PricingProblem
-	p.PricingProblem(noOfGoods, seed)
+	// var p PricingProblem
+	// p.PricingProblem(noOfGoods, seed)
 
 	var population []Particle
 
@@ -76,7 +111,7 @@ func PSO(noOfGoods int, seed int64) (prices []float64, revenue float64) {
 		// Termination condition
 		now := time.Now()
 		if now.Sub(start).Seconds() >= executeTime {
-			fmt.Printf("\nExecute Time Acheived\n")
+			fmt.Printf("Execute Time Acheived\n")
 			break
 		}
 	}
@@ -92,11 +127,13 @@ func PSO(noOfGoods int, seed int64) (prices []float64, revenue float64) {
 //	4. Selection, choose the best mu for the next population
 //	5. Metadynamics, repace the worst d with random solutions
 //	6. Repeat until termination condition
-func artificialImmuneSystem(noOfGoods int, seed int64) (bestPrices []float64, bestRevenue float64) {
+func artificialImmuneSystem(noOfGoods int, p PricingProblem, seed int64) (bestPrices []float64, bestRevenue float64) {
+	rand.Seed(seed)
+
 	fmt.Printf("Starting Artificial Immune System\n")
 
-	var p PricingProblem
-	p.PricingProblem(noOfGoods, seed)
+	// var p PricingProblem
+	// p.PricingProblem(noOfGoods, seed)
 
 	start := time.Now()
 
