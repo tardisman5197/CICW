@@ -33,21 +33,13 @@ func (p *Particle) update(gBest []float64) {
 	}
 
 	// update the velocity
-
-	// n = 1/2ln2
-	n := 0.721
-
-	// phi = 1/2 + ln2
-	phi1 := 1.1193
-	phi2 := phi1
-
 	for i := 0; i < len(p.currentVelocity)-1; i++ {
 		// r is a random number between 0 and 1
 		r1 := rand.Float64()
 		r2 := rand.Float64()
-		p.currentVelocity[i] = (n * p.currentVelocity[i]) +
-			(phi1 * r1 * (p.pBest[i] - p.currentPostion[i])) +
-			(phi2 * r2 * (gBest[i] - p.currentPostion[i]))
+		p.currentVelocity[i] = (intertia * p.currentVelocity[i]) +
+			(cognativeCoeff * r1 * (p.pBest[i] - p.currentPostion[i])) +
+			(socialCoeff * r2 * (gBest[i] - p.currentPostion[i]))
 	}
 }
 

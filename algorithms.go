@@ -46,17 +46,14 @@ func fitnessTester(f PricingProblem, seed int64) {
 // by creating a population of valid solutions, then flocking
 // towards the best soloution in the population.
 func PSO(noOfGoods int, p PricingProblem, seed int64) (prices []float64, revenue float64) {
+	// fmt.Printf("Starting PSO\n")
+
 	rand.Seed(seed)
-
-	fmt.Printf("Starting PSO\n")
-
-	// var p PricingProblem
-	// p.PricingProblem(noOfGoods, seed)
 
 	var population []Particle
 
 	// INITIALISE population, with random designs
-	for i := 0; i < 100; i++ {
+	for i := 0; i < psoPopSize; i++ {
 		currentParticle := Particle{}
 		// Find a random design
 		currentParticle.currentPostion = randomPrices(noOfGoods)
@@ -111,7 +108,7 @@ func PSO(noOfGoods int, p PricingProblem, seed int64) (prices []float64, revenue
 		// Termination condition
 		now := time.Now()
 		if now.Sub(start).Seconds() >= executeTime {
-			fmt.Printf("Execute Time Acheived\n")
+			fmt.Printf("\tExecute Time Acheived\n")
 			break
 		}
 	}
@@ -128,19 +125,16 @@ func PSO(noOfGoods int, p PricingProblem, seed int64) (prices []float64, revenue
 //	5. Metadynamics, repace the worst d with random solutions
 //	6. Repeat until termination condition
 func artificialImmuneSystem(noOfGoods int, p PricingProblem, seed int64) (bestPrices []float64, bestRevenue float64) {
+	// fmt.Printf("Starting Artificial Immune System\n")
+
 	rand.Seed(seed)
-
-	fmt.Printf("Starting Artificial Immune System\n")
-
-	// var p PricingProblem
-	// p.PricingProblem(noOfGoods, seed)
 
 	start := time.Now()
 
 	var population []Prices
 
 	// Init population with random routes and Eval the routes.
-	population = generateRandomPopulation(noOfGoods, popSize, p)
+	population = generateRandomPopulation(noOfGoods, aispopSize, p)
 
 	// Repeat until terminating condition (executeTime)
 	for {
@@ -199,7 +193,7 @@ func artificialImmuneSystem(noOfGoods int, p PricingProblem, seed int64) (bestPr
 		sort.SliceStable(population, func(i, j int) bool { return population[i].revenue > population[j].revenue })
 
 		// Remove the worst routes
-		population = population[:popSize]
+		population = population[:aispopSize]
 
 		// Metadynamics
 		// Swap the worst kth routes with new random routes
@@ -216,7 +210,7 @@ func artificialImmuneSystem(noOfGoods int, p PricingProblem, seed int64) (bestPr
 		// Check if ran out of time
 		now := time.Now()
 		if now.Sub(start).Seconds() >= executeTime {
-			fmt.Printf("Execute Time Acheived\n")
+			fmt.Printf("\tExecute Time Acheived\n")
 			break
 		}
 	}
