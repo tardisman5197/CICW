@@ -1,2 +1,2 @@
 # CICW
-Computer Inelegance Coursework
+Computer Intelligence Coursework
