@@ -11,7 +11,6 @@ import (
 
 const executeTime = 3
 const numberOfGoods = 20
-const defaultSeed = 0
 
 // Artificial Immnune System
 const aispopSize = 4
@@ -26,12 +25,21 @@ const socialCoeff = 0.8
 const intertia = 0.9
 
 func main() {
-	algorithmPtr := flag.String("alg", "PSO", "Which algorithm to run: 'PSO', 'AIS'")
-	fileExtentionPtr := flag.String("ext", "final", "What to add to the end of the csv file")
+
+	algorithmPtr := flag.String("alg", "PSO", "Sets algorithm to run: 'PSO', 'AIS'")
+	fileExtentionPtr := flag.String("ext", "final", "Sets the file extention to the csv file")
+
+	collectPtr := flag.Bool("c", false, "Collects data over a selection of seeds for a certain algorithm")
+
+	seedPtr := flag.Int("seed", 0, "Set the default seed")
 
 	flag.Parse()
 
-	collectData(*algorithmPtr, *fileExtentionPtr)
+	if *collectPtr {
+		collectData(*algorithmPtr, *fileExtentionPtr)
+	} else {
+		demo(int64(*seedPtr))
+	}
 }
 
 // collectData runs an algorithm with multiple seeds for the same
@@ -111,7 +119,7 @@ func collectData(algorithm string, id string) {
 
 // demo runs each of the algorithms on the default
 // seed for the same amount of time.
-func demo() {
+func demo(defaultSeed int64) {
 	var p PricingProblem
 	p.PricingProblem(numberOfGoods, defaultSeed)
 
@@ -120,10 +128,12 @@ func demo() {
 	fmt.Printf("\n\n")
 
 	// Run Artificial Immune
+	fmt.Printf("Starting Artificial Immune System\n")
 	prices, revenue := artificialImmuneSystem(numberOfGoods, p, defaultSeed)
 	fmt.Printf("Prices: %v\nRevenue %v\n\n", prices, revenue)
 
 	// Run PSO algorithm
+	fmt.Printf("Starting PSO\n")
 	prices, revenue = PSO(numberOfGoods, p, defaultSeed)
 	fmt.Printf("Prices: %v\nRevenue %v\n\n", prices, revenue)
 }
