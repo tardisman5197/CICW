@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/csv"
+	"flag"
 	"fmt"
 	"math/rand"
 	"os"
@@ -25,7 +26,12 @@ const socialCoeff = 0.8
 const intertia = 0.9
 
 func main() {
-	collectData("PSO", "cognativeCoeff")
+	algorithmPtr := flag.String("alg", "PSO", "Which algorithm to run: 'PSO', 'AIS'")
+	fileExtentionPtr := flag.String("ext", "final", "What to add to the end of the csv file")
+
+	flag.Parse()
+
+	collectData(*algorithmPtr, *fileExtentionPtr)
 }
 
 // collectData runs an algorithm with multiple seeds for the same
