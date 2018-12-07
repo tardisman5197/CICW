@@ -87,7 +87,6 @@ func PSO(noOfGoods int, p PricingProblem, seed int64) (prices []float64, revenue
 				gBestRevenue = population[j].pBestRevenue
 			}
 		}
-
 		// 1. UPDATE velocity and position
 		// 2. EVALUATE new position
 		// 3. UPDATE personal best
@@ -116,8 +115,9 @@ func PSO(noOfGoods int, p PricingProblem, seed int64) (prices []float64, revenue
 	return gBest, gBestRevenue
 }
 
-// artificialImmuneSystem finds a solution for the pricing problem, by using methods similar to
-// an immune system. The steps that this algorithm takes are as follows:
+// artificialImmuneSystem finds a solution for the pricing problem, by
+// using methods similar to an immune system. The steps that this algorithm
+// takes are as follows:
 // 	1. Initiation, create random soloutions
 //	2. Cloning, make beta amount of copies
 //	3. Mutation, inverse proportional hyper-mutation
